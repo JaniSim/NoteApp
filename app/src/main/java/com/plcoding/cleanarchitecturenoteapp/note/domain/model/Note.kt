@@ -21,4 +21,6 @@ data class Note(val title : String,
     }
 }
 
+class InvalidNoteException(message : String ) : Exception(message)
+
 
