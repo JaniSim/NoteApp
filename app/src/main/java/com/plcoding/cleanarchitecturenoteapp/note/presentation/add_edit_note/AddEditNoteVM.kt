@@ -33,6 +33,11 @@ class AddEditNoteVM  @Inject constructor(
     ))
     val content: State<NoteTextFieldState> = _content
 
+    private val _image = mutableStateOf(NoteTextFieldState(
+        hint = "Select an image"
+    ))
+    val image: State<NoteTextFieldState> = _image
+
     private val _color = mutableStateOf(Note.noteColors.random().toArgb())
     val color: State<Int> = _color
 
@@ -56,6 +61,10 @@ class AddEditNoteVM  @Inject constructor(
                             isHintVisible = false
                         )
                         _color.value = note.color
+                        _image.value = image.value.copy(
+                            text = note.image,
+                            isHintVisible = false
+                        )
                     }
                 }
             }
@@ -80,6 +89,11 @@ class AddEditNoteVM  @Inject constructor(
                     text = event.value
                 )
             }
+            is AddEditNoteEvent.EnteredImage -> {
+                _image.value = image.value.copy(
+                    text = event.value
+                )
+            }
             is AddEditNoteEvent.ChangeContentFocus -> {
                 _content.value = _content.value.copy(
                     isHintVisible = !event.focusState.isFocused &&
@@ -98,7 +112,8 @@ class AddEditNoteVM  @Inject constructor(
                                 content = content.value.text,
                                 timestamp = System.currentTimeMillis(),
                                 color = color.value,
-                                id = currentNoteId
+                                id = currentNoteId,
+                                image = image.value.text
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveNote)

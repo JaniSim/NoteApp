@@ -6,7 +6,7 @@ import com.plcoding.cleanarchitecturenoteapp.note.domain.model.Note
 
 @Database(
     entities = [Note::class],
-    version = 1
+    version = 2
 )
 abstract class NoteDatabase : RoomDatabase() {
     abstract val noteDao: NoteDao
