@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App.First" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#06044f</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/round_sticky_note_2_24</item>
+        <item name="postSplashScreenTheme">@style/Theme.CleanArchitectureNoteApp</item>
+    </style>
+
+</resources>
