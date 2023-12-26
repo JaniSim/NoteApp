@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
@@ -32,6 +31,7 @@ import com.plcoding.cleanarchitecturenoteapp.note.presentation.notes.NotesEvent
 import com.plcoding.cleanarchitecturenoteapp.note.presentation.notes.NotesVM
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.lazy.items
+import com.plcoding.cleanarchitecturenoteapp.note.presentation.util.Screen
 
 @Composable
 fun NotesScreen(
@@ -45,7 +45,7 @@ fun NotesScreen(
     Scaffold (
         floatingActionButton = {
             FloatingActionButton(onClick = {
-
+                navController.navigate(Screen.AddEditNoteScreen.route)
             }, backgroundColor = MaterialTheme.colors.primary) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
             }
@@ -66,6 +66,10 @@ fun NotesScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
+                                navController.navigate(
+                                    Screen.AddEditNoteScreen.route +
+                                            "?noteId=${note.id}&noteColor=${note.color}"
+                                )
                             },
                         onDeleteClick = {
                             viewModel.onEvent(NotesEvent.DeleteNote(note))
