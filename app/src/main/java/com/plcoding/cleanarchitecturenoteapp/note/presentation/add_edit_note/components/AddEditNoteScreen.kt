@@ -33,11 +33,8 @@ import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -89,14 +86,15 @@ fun AddEditNoteScreen(
         }
     }
 
-    var selectedImageUri by remember {
-        mutableStateOf<Uri?>(Uri.parse(imageState.text))
-    }
+//    var selectedImageUri by remember {
+//        mutableStateOf<Uri?>(Uri.parse(imageState.text))
+//    }
 
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> selectedImageUri = uri
-            viewModel.onEvent(AddEditNoteEvent.EnteredImage(uri.toString()))}
+        onResult = {
+//                uri -> imageState.text = uri.toString()
+                uri -> viewModel.onEvent(AddEditNoteEvent.EnteredImage(uri.toString()))}
     )
 
     Scaffold(
@@ -202,10 +200,13 @@ fun AddEditNoteScreen(
 
                 item {
                     AsyncImage(
-                        model = selectedImageUri,
+                        model = Uri.parse(imageState.text),
                         contentDescription = null,
                         modifier = Modifier.fillMaxWidth(),
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Crop,
+                        onSuccess = {
+                            viewModel.onEvent(AddEditNoteEvent.EnteredImage(imageState.text))
+                        }
                     )
                 }
             }
